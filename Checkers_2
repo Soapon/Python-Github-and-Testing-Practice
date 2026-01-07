@@ -1,3 +1,9 @@
+#New Improved Checkers w/ King Pieces
+#W = White King
+#P = Black King
+#King pieces can move both forward and backwards
+#and can be achieved when a checker piece reach the other end of the board
+
 def initialize_board():
     """
     Initialize the checkers board with pieces.
@@ -10,7 +16,6 @@ def initialize_board():
                     board[(row, col)] = 'W'
                 elif row > 4:
                     board[(row, col)] = 'B'
-    board[6,6] = 'W'
     return board
 
 def print_board(board):
@@ -60,8 +65,11 @@ def is_valid_move(board, start, end, current_player):
     #No Moving Backwards
     if piece == 'W' and col_move < 0:
         return False
-
+    if piece == 'M' and current_player != 'W':
+        return False
     if piece == 'B' and col_move > 0:
+        return False
+    if piece == 'P' and current_player != 'B':
         return False
 
 
@@ -101,12 +109,12 @@ def get_input_coordinate(prompt):
             print("Invalid input. Please enter a number.")
 
 def promote_to_king(board, end):
-    piece = board[end]
-    if piece == "W" and end[0] == 7:
-        board[end] = 'M'
+    
+    if board[end[0]-1, end[1]-1] == "W" and end[0] == 8:
+        board[end[0]-1, end[1]-1] = 'M'
 
-    elif piece == "B" and end[0] == 0:
-        board[end] = 'P'
+    elif board[end[0]-1, end[1]-1] == "B" and end[0] == 1:
+        board[end[0]-1, end[1]-1] = 'P'
      
 def main():
     board = initialize_board()
@@ -115,11 +123,9 @@ def main():
     while True:
         print_board(board)
         print(f"\nPlayer {current_player}'s turn")
-
         # Get input for the move
         start_col = get_input_coordinate("Enter the column of the piece to move (1-8): ")
         start_row = get_input_coordinate("Enter the row of the piece to move (1-8): ")
-        print("Hello")
         end_col = get_input_coordinate("Enter the column of the destination (1-8): ")
         end_row = get_input_coordinate("Enter the row of the destination (1-8): ")
 
