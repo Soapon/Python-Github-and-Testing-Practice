@@ -1,0 +1,144 @@
+#New Improved Checkers w/ King Pieces
+#W = White King
+#P = Black King
+#King pieces can move both forward and backwards
+#and can be achieved when a checker piece reach the other end of the board
+
+def initialize_board():
+    """
+    Initialize the checkers board with pieces.
+    """
+    board = {}
+    for row in range(8):
+        for col in range(8):
+            if (row + col) % 2 == 1:
+                if row < 3:
+                    board[(row, col)] = 'W'
+                elif row > 4:
+                    board[(row, col)] = 'B'
+    return board
+
+def print_board(board):
+    """
+    Print the current state of the checkers board with labels.
+    """
+    print("    1 2 3 4 5 6 7 8")
+    print("  +----------------")
+    for row in range(8):
+        print(f"{row + 1} |", end=' ')
+        for col in range(8):
+            if (row, col) in board:
+                print(board[(row, col)], end=' ')
+            else:
+                print('.', end=' ')
+        print()
+
+def move_piece(board, start, end):
+    """
+    Move a piece on the checkers board and handle capturing opponent's pieces.
+    """
+    piece = board.pop(start, None)
+    if piece:
+        board[end] = piece
+
+    # Check for capturing opponent's pieces
+    if abs(end[0] - start[0]) == 2:
+        captured_row = (start[0] + end[0]) // 2
+        captured_col = (start[1] + end[1]) // 2
+        if (captured_row, captured_col) in board:
+            del board[(captured_row, captured_col)]
+
+def is_valid_move(board, start, end, current_player):
+    """
+    Check if the move is valid based on basic rules.
+    """
+    if not (1 <= start[0] <= 8 and 1 <= start[1] <= 8 and 1 <= end[0] <= 8 and 1 <= end[1] <= 8):
+        return False
+
+    if (end[0] - 1, end[1] - 1) in board:
+        return False  # Destination cell is not empty
+
+    piece = board.get((start[0] - 1, start[1] - 1))
+    if piece is None or (piece == 'W' and current_player != 'W') or (piece == 'B' and current_player != 'B'):
+        return False  # Invalid piece or not player's turn
+    col_move = end[0] - start[0]
+    #No Moving Backwards
+    if piece == 'W' and col_move < 0:
+        return False
+    if piece == 'M' and current_player != 'W':
+        return False
+    if piece == 'B' and col_move > 0:
+        return False
+    if piece == 'P' and current_player != 'B':
+        return False
+
+
+    # Check for regular move
+    if abs(end[0] - start[0]) == 1 and abs(end[1] - start[1]) == 1:
+   
+        return True
+
+    # Check for capturing move
+    if abs(end[0] - start[0]) == 2 and abs(end[1] - start[1]) == 2:
+        captured_row = (start[0] + end[0]) // 2
+        captured_col = (start[1] + end[1]) // 2
+        if (captured_row - 1, captured_col - 1) in board and board[(captured_row - 1, captured_col - 1)] != current_player:
+        
+            return True
+
+    return False
+
+def switch_player(current_player):
+    """
+    Switch the player's turn.
+    """
+    return 'B' if current_player == 'W' else 'W'
+
+def get_input_coordinate(prompt):
+    """
+    Get input for row or column separately.
+    """
+    while True:
+        try:
+            value = int(input(prompt))
+            if 1 <= value <= 8:
+                return value
+            else:
+                print("Value must be between 1 and 8. Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def promote_to_king(board, end):
+    
+    if board[end[0]-1, end[1]-1] == "W" and end[0] == 8:
+        board[end[0]-1, end[1]-1] = 'M'
+
+    elif board[end[0]-1, end[1]-1] == "B" and end[0] == 1:
+        board[end[0]-1, end[1]-1] = 'P'
+     
+def main():
+    board = initialize_board()
+    current_player = 'W'
+
+    while True:
+        print_board(board)
+        print(f"\nPlayer {current_player}'s turn")
+        # Get input for the move
+        start_col = get_input_coordinate("Enter the column of the piece to move (1-8): ")
+        start_row = get_input_coordinate("Enter the row of the piece to move (1-8): ")
+        end_col = get_input_coordinate("Enter the column of the destination (1-8): ")
+        end_row = get_input_coordinate("Enter the row of the destination (1-8): ")
+
+        start = (start_row, start_col)
+        end = (end_row, end_col)
+
+        # Check if the move is valid
+        if is_valid_move(board, start, end, current_player):
+            move_piece(board, (start[0] - 1, start[1] - 1), (end[0] - 1, end[1] - 1))
+            promote_to_king(board, end)
+            current_player = switch_player(current_player)
+        else:
+            print("Invalid move. Try again.")
+
+if __name__ == "__main__":
+    main()
