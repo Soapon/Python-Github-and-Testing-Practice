@@ -1,10 +1,8 @@
 #Unit Tests for Checkers_2 module
 # >_<
 #1/7/2026
-import sys
 
-sys.path.insert(1, '\Users\Soap\CompSci3\1st project\Python-Github-and-Testing-Practice\Checkers_2')
-from Checkers_2.py import (
+from Checkers_2 import (
     initialize_board,
     move_piece,
     switch_player,
