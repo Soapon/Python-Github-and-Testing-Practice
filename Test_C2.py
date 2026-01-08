@@ -32,7 +32,7 @@ class TestInitializeBoard:
     def test_board_size(self):
         #Test that board has correct number of pieces
         board = initialize_board()
-        assert len(board) == 24  # 12 pieces per player
+        assert len(board) == 24  # 12 pieces per player to start with
 
 
 class TestMovePiece:
@@ -63,11 +63,11 @@ class TestSwitchPlayer:
 
 class TestPromoteToKing:
     def test_white_promotion(self):
-        #Test white piece promotion to king
+        #test white piece promotion to king
         board = {(7, 1): 'W'}
         promote_to_king(board, (8, 2))
         assert board[(7, 1)] == 'M'
-    
+        #now for black
     def test_black_promotion(self):
         board = {(0, 1): 'B'}
         promote_to_king(board, (1, 2))
