@@ -1,6 +1,6 @@
 #New Improved Checkers w/ King Pieces
-#W = White King
-#P = Black King
+#w = White King
+#b = Black King
 #King pieces can move both forward and backwards
 #and can be achieved when a checker piece reach the other end of the board
 
@@ -65,11 +65,11 @@ def is_valid_move(board, start, end, current_player):
     #No Moving Backwards
     if piece == 'W' and col_move < 0:
         return False
-    if piece == 'M' and current_player != 'W':
+    if piece == 'w' and current_player != 'W':
         return False
     if piece == 'B' and col_move > 0:
         return False
-    if piece == 'P' and current_player != 'B':
+    if piece == 'b' and current_player != 'B':
         return False
 
 
@@ -111,10 +111,10 @@ def get_input_coordinate(prompt):
 def promote_to_king(board, end):
     
     if board[end[0]-1, end[1]-1] == "W" and end[0] == 8:
-        board[end[0]-1, end[1]-1] = 'M'
+        board[end[0]-1, end[1]-1] = 'w'
 
     elif board[end[0]-1, end[1]-1] == "B" and end[0] == 1:
-        board[end[0]-1, end[1]-1] = 'P'
+        board[end[0]-1, end[1]-1] = 'b'
      
 def main():
     board = initialize_board()
