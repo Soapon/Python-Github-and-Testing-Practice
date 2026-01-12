@@ -23,7 +23,7 @@
 
 # Doctesting Brainstorm (Unit Testing Implemented)
  
-To implement doctesting, I would first identify the most deterministic functions where expected behavior can be clearly defined, such as switch_player, initialize_board, is_valid_move, and promote_to_king. For each of these functions, I would aim to design board states that isolate a single rule and verify return values, piece counts, or specific board positions after a move similiar to how it is done with unit testing. To make doctesting practical, I need avoid testing interactive functions like main() and instead refactor logic-heavy functions to return values rather than only mutating state.
+To implement doctesting, I would first identify the most deterministic functions where expected behavior can be clearly defined, such as switch_player, initialize_board, is_valid_move, and promote_to_king. For each of these functions, I would aim to design board states that isolate a single rule and verify return values, piece counts, or specific board positions after a move similiar to how it is done with unit testing. To make doctesting practical, I need avoid testing interactive functions like main().
  
 # Doctest Vs. Unit Test:
 
